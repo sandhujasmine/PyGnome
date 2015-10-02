@@ -19,7 +19,6 @@ install:
   # Install dependencies
   - git checkout ci-github
   - cd py_gnome
-  - ls environment.yml
   - conda env create 
   - source activate py_gnome
 

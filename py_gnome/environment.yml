@@ -2,6 +2,7 @@ name: py_gnome
 
 channels:
     - NOAA-ORR-ERD
+    - ioos
 
 dependencies:
     - numpy
