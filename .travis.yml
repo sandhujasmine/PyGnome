@@ -1,0 +1,42 @@
+language: python
+
+
+matrix:
+  include:
+    - python: 2.7
+
+
+# follow blaze example and setup cond env 
+install:
+  # Install conda
+  - wget http://repo.continuum.io/miniconda/Miniconda-latest-Linux-x86_64.sh -O miniconda.sh
+  - bash miniconda.sh -b -p $HOME/miniconda
+  - export PATH="$HOME/miniconda/bin:$PATH"
+  - conda config --set always_yes yes --set changeps1 no
+  - conda update conda
+
+  # Install dependencies
+  - git checkout ci-github
+  - cd py_gnome
+  - conda env create 
+  - source activate py_gnome
+
+  # Install coveralls
+  - pip install coveralls
+
+  # Install polygon example
+  - python setup.py install
+  - pip install -e ../oil_library/
+
+script:
+  - echo '[pytest]' > pytest.ini
+  - echo 'addopts = -vv -r sxX' >> pytest.ini
+  - coverage run $(which py.test)
+  - coverage report --show-missing 
+
+after_success:
+    - coveralls
+
+notifications:
+    email: 
+        - sandhu.jasmine@gmail.com
